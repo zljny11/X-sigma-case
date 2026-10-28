@@ -1,4 +1,3 @@
-"""Wagtopia demo: same-origin web UI, JSON API, and persistent SQLite storage."""
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timedelta
@@ -47,7 +46,7 @@ def create_booking(path, payload):
     start_text, end_text = start.isoformat(timespec='minutes'), end.isoformat(timespec='minutes')
     try:
         with connect(path) as db:
-            # Serialize check + insert across requests; trigger additionally protects direct writes.
+            # Lock before checking and inserting to prevent concurrent overlaps.
             db.execute('BEGIN IMMEDIATE')
             if not db.execute('SELECT 1 FROM dogs WHERE dog_id=? AND parent_id=?', (ids[1], ids[0])).fetchone():
                 return 400, {'error': '所选狗狗不属于该家长。'}

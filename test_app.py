@@ -1,4 +1,3 @@
-"""Integration tests use a temporary DB and real HTTP requests; never modify demo data."""
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 from http.server import ThreadingHTTPServer
